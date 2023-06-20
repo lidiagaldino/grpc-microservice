@@ -5,12 +5,16 @@ class SessionController {
     async store(req, res) {
         const { email, password } = req.body
 
-        UserService.loginUser({ user: { email, password } }, (err, response) => {
-            if (err) console.log(err);
-            else console.log(response);
+
+        const response = await new Promise((resolve, reject) => {
+            UserService.loginUser({ user: { email, password } }, (err, response) => {
+                if (err) reject(err);
+                else resolve(response);
+            })
         })
 
-        //return res.json(response)
+
+        return res.json(response)
     }
 }
 

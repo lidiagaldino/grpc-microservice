@@ -2,20 +2,30 @@ const userClient = require("../services/userService")
 
 class UserController {
     async show(req, res) {
-        const user = {}
+        const { id } = req.params
 
-        return user
+        const response = await new Promise((resolve, reject) => {
+            userClient.getUserById({ id }, (err, response) => {
+                if (err) reject(err)
+                else resolve(response)
+            })
+        })
+
+        return res.json(response)
     }
 
     async store(req, res) {
         const { email, username, password } = req.body
 
-        userClient.registerUser({ user: { email, password, username } }, function (err, response) {
-            if (err) console.log(err);
-            else console.log(response);
+        const response = await new Promise((resolve, reject) => {
+            userClient.registerUser({ user: { email, username, password } },
+                function (err, response) {
+                    if (err) reject(err)
+                    else resolve(response)
+                })
         })
 
-        return res.send('teste')
+        return res.json(response)
     }
 }
 

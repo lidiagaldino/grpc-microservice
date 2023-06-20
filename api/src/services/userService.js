@@ -10,9 +10,9 @@ const userDef = protoLoader.loadSync(
 
 const user = grpc.loadPackageDefinition(userDef);
 
-const hidraClient = new user.UserService(
+const userClient = new user.UserService(
     'localhost:3334',
     grpc.credentials.createInsecure()
 )
 
-module.exports = hidraClient
+module.exports = userClient
